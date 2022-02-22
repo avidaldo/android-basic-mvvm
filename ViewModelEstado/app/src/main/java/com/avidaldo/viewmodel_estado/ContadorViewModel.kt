@@ -3,9 +3,9 @@ package com.avidaldo.viewmodel_estado
 import androidx.lifecycle.ViewModel
 
 
+/** Clase que hereda de ViewModel() */
 
-
-class ContadorViewModel {
+class ContadorViewModel : ViewModel() {
     private var count = 0
 
     fun getCurrentCount(): Int {

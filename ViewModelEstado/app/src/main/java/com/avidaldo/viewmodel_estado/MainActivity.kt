@@ -2,17 +2,21 @@ package com.avidaldo.viewmodel_estado
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import com.avidaldo.viewmodel_estado.databinding.ActivityMainBinding
 
 
-/** Actividad que pierde su estado (se destruye y se crea de nuevo) ante cambios
- * de configuración (giro de pantalla, cambio de lenguaje, etc...  */
+/** Actividad que utiliza un ViewModel para mantener el estado de la
+ * lógica de negocio */
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel = ContadorViewModel()
+    /** El contador se mueve al ViewModel y introducimos una referencia a éste.
+     * La propiedad utilizará Lazy delegation en la función viewModels()
+     * requiere añadir la dependencia androidx.activity:activity-ktx */
+    private val viewModel: ContadorViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
