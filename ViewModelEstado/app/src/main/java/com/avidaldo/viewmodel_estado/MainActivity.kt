@@ -12,15 +12,19 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var cuenta = 0
+    private val viewModel = ContadorViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /** Necesario para que, si estamos recuperando un estado previo, no empiece en 0 */
+        binding.tvCuenta.text = viewModel.getCurrentCount().toString()
+
         binding.button.setOnClickListener {
-            binding.tvCuenta.text = (++cuenta).toString()
+            /** La modificación de la vista ahora se hace desde el ViewModel */
+            binding.tvCuenta.text = viewModel.getUpdatedCount().toString()
         }
 
     }
