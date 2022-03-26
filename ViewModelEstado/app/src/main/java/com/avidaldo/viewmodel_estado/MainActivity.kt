@@ -16,19 +16,23 @@ class MainActivity : AppCompatActivity() {
     /** El contador se mueve al ViewModel y introducimos una referencia a éste.
      * La propiedad utilizará Lazy delegation en la función viewModels()
      * requiere añadir la dependencia androidx.activity:activity-ktx */
-    private val viewModel: ContadorViewModel by viewModels()
+    private val contadorViewModel: ContadorViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /** Necesario para que, si estamos recuperando un estado previo, no empiece en 0 */
-        binding.tvCuenta.text = viewModel.getCurrentCount().toString()
+        /** Usando el patrón observer: */
+
+        /** Suscribimos tvCuenta al LiveData cuentaViewModel de modo que
+         * ante cualquier cambio en el viewModel, la vista se actualizará */
+        contadorViewModel.countLiveData.observe(this) {
+            binding.tvCuenta.text = it.toString()
+        }
 
         binding.button.setOnClickListener {
-            /** La modificación de la vista ahora se hace desde el ViewModel */
-            binding.tvCuenta.text = viewModel.getUpdatedCount().toString()
+            contadorViewModel.incrementaCuenta()
         }
 
     }

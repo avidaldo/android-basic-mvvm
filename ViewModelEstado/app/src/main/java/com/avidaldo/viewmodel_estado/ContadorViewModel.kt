@@ -1,19 +1,22 @@
 package com.avidaldo.viewmodel_estado
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 
 /** Clase que hereda de ViewModel() */
 
 class ContadorViewModel : ViewModel() {
-    private var count = 0
 
-    fun getCurrentCount(): Int {
-        return count
-    }
 
-    fun getUpdatedCount(): Int {
-        return ++count
+
+    //var count = 0
+
+    /** Utilizamos LiveData para implementar el patrón observer */
+    val countLiveData = MutableLiveData(0)
+
+    fun incrementaCuenta() {
+        countLiveData.value?.let { countLiveData.value = it+1 }
     }
 
 
