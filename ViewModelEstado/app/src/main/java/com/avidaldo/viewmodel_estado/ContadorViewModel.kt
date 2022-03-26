@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 
 class ContadorViewModel : ViewModel() {
 
-    //var count = 0
+    /** Instanciamos el modelo */
+    private val model = ContadorModel()
 
-    /** Utilizamos LiveData para implementar el patrón observer */
+    /** Definimos el modelo de datos que se corresponde con la vista */
     val countLiveData = MutableLiveData(0)
 
+
+    /** Métodos que llaman al modelo y actualizan el viewModel */
     fun incrementaCuenta() {
-        countLiveData.value?.let { countLiveData.value = it + 1 }
+        countLiveData.postValue(model.incrementaCuenta())
     }
 }
