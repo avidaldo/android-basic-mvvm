@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.avidaldo.viewmodel_estado.databinding.FragmentMainBinding
 
 
@@ -17,7 +19,7 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private var cuenta = 0
+    private val contadorViewModel: ContadorViewModel by viewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,8 +40,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /** Suscribimos tvCuenta al LiveData cuentaViewModel con el patrón observer de
+         * modo que ante cualquier cambio en el viewModel, la vista se actualizará */
+        contadorViewModel.countLiveData.observe(viewLifecycleOwner) {
+            binding.tvCuenta.text = it.toString()
+        }
+
         binding.button.setOnClickListener {
-            binding.tvCuenta.text = (++cuenta).toString()
+            contadorViewModel.incrementaCuenta()
         }
 
     }
